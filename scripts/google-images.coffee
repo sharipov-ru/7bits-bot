@@ -8,7 +8,7 @@
 #   hubot mustache me <query> - Searches Google Images for the specified query and mustaches it.
 
 module.exports = (robot) ->
-  robot.respond /покажи( мне)? (.*)/i, (msg) ->
+  robot.respond /покажи(^ блять)( мне)? (.*)/i, (msg) ->
     imageMe msg, 'active', msg.match[2], (url) ->
       msg.send url
 
@@ -16,7 +16,7 @@ module.exports = (robot) ->
     imageMe msg, 'off', msg.match[2], (url) ->
       msg.send url
 
-  robot.respond /анимируй( мне)? (.*)/i, (msg) ->
+  robot.respond /анимируй(^ блять)( мне)? (.*)/i, (msg) ->
     imageMe msg, 'active', msg.match[2], true, (url) ->
       msg.send url
 
