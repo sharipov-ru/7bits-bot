@@ -9,11 +9,19 @@
 
 module.exports = (robot) ->
   robot.respond /покажи( мне)? (.*)/i, (msg) ->
-    imageMe msg, msg.match[3], (url) ->
+    imageMe msg, 'active', msg.match[2], (url) ->
+      msg.send url
+
+  robot.respond /покажи блять( мне)? (.*)/i, (msg) ->
+    imageMe msg, 'off', msg.match[2], (url) ->
       msg.send url
 
   robot.respond /анимируй( мне)? (.*)/i, (msg) ->
-    imageMe msg, msg.match[2], true, (url) ->
+    imageMe msg, 'active', msg.match[2], true, (url) ->
+      msg.send url
+
+  robot.respond /анимируй блять( мне)? (.*)/i, (msg) ->
+    imageMe msg, 'off', msg.match[2], true, (url) ->
       msg.send url
 
   robot.respond /(?:mo?u)?sta(?:s|c)he?(?: me)? (.*)/i, (msg) ->
@@ -24,13 +32,13 @@ module.exports = (robot) ->
     if imagery.match /^https?:\/\//i
       msg.send "#{mustachify}#{imagery}"
     else
-      imageMe msg, imagery, false, true, (url) ->
+      imageMe msg, 'active', imagery, false, true, (url) ->
         msg.send "#{mustachify}#{url}"
 
-imageMe = (msg, query, animated, faces, cb) ->
+imageMe = (msg, safe, query, animated, faces, cb) ->
   cb = animated if typeof animated == 'function'
   cb = faces if typeof faces == 'function'
-  q = v: '1.0', rsz: '8', q: query, safe: 'active'
+  q = v: '1.0', rsz: '8', q: query, safe: safe
   q.imgtype = 'animated' if typeof animated is 'boolean' and animated is true
   q.imgtype = 'face' if typeof faces is 'boolean' and faces is true
   msg.http('http://ajax.googleapis.com/ajax/services/search/images')
