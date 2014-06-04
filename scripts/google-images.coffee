@@ -9,7 +9,7 @@
 
 module.exports = (robot) ->
   robot.respond /покажи( мне)? (.*)/i, (msg) ->
-    imageMe msg, msg.match[3], (url) ->
+    imageMe msg, msg.match[2], (url) ->
       msg.send url
 
   robot.respond /анимируй( мне)? (.*)/i, (msg) ->
